@@ -1,0 +1,6 @@
+*.mk~
+*.user
+*.cpp.o
+*.cpp.d
+Makefile~
+bin

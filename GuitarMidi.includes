@@ -1,0 +1,10 @@
+DPF/dgl/src/nanovg
+DPF/dgl/src/pugl
+DPF/dgl/src/sofd
+DPF/distrho/src
+DPF/distrho/src/dssi
+DPF/distrho/src/ladspa
+DPF/distrho/src/lv2
+DPF/distrho/src/vestige
+DPF/distrho/
+plugins/BandPass
