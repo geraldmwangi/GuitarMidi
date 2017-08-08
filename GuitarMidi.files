@@ -136,3 +136,9 @@ plugins/Makefile.mk
 README.md
 plugins/BandPass/bandpassfilter.h
 plugins/BandPass/bandpassfilter.cpp
+plugins/ChebyshevBandPass/fourthorderfilter.h
+plugins/ChebyshevBandPass/fourthorderfilter.cpp
+plugins/ChebyshevBandPass/DistrhoPluginInfo.h
+plugins/ChebyshevBandPass/Makefile
+plugins/ChebyshevBandPass/chebyshevbandpass.h
+plugins/ChebyshevBandPass/chebyshevbandpass.cpp

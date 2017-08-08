@@ -17,7 +17,7 @@ endif
 
 plugins: libs
 	$(MAKE) all -C plugins/BandPass
-
+	$(MAKE) all -C plugins/ChebyshevBandPass
 
 
 

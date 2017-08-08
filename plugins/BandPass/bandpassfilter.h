@@ -34,6 +34,17 @@ public:
         computeCoefficients();
     }
 
+    void setScale(double scale)
+    {
+        m_scale=scale;
+        computeCoefficients();
+    }
+
+    double getScale() const
+    {
+        return m_scale;
+    }
+
     double getGain() const
     {
         return m_gainDB;
@@ -76,6 +87,7 @@ private:
     float m_sr;
 
     double m_gainDB;
+    double m_scale;
     int factorial(int n);
 };
 

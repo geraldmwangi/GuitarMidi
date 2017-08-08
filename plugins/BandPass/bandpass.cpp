@@ -3,7 +3,7 @@
 #include <stdlib.h>
 START_NAMESPACE_DISTRHO
 BandPass::BandPass():
-    Plugin(4, 0, 0)
+    Plugin(5, 0, 0)
 {
     int frames=getBufferSize();
     for(int i=0;i<NUM_FILTERS;i++)
@@ -64,6 +64,13 @@ void BandPass::initParameter(uint32_t index, Parameter &parameter)
 
         parameter.ranges.def=m_filter[0].getGain();
     }
+    else if(index==4)
+    {
+        parameter.name="pole rescale factor";
+        parameter.ranges.min=0.1;
+        parameter.ranges.max=10.0;
+        parameter.ranges.def=m_filter[0].getScale();
+    }
 
 
 
@@ -79,6 +86,8 @@ float BandPass::getParameterValue(uint32_t index) const
         return m_filter[0].getOrder();
     else if(index==3)
         return m_filter[0].getGain();
+    else
+        return m_filter[0].getScale();
 
 }
 
@@ -96,6 +105,9 @@ void BandPass::setParameterValue(uint32_t index, float value)
     else if(index==3)
         for(int i=0;i<NUM_FILTERS;i++)
             m_filter[i].setGain(value);
+    else
+        for(int i=0;i<NUM_FILTERS;i++)
+            m_filter[i].setScale(value);
 }
 
 void BandPass::run(const float **inputs, float **outputs, uint32_t frames)

@@ -1,31 +1,15 @@
-/*
- * LowPass filter
- * Copyright (C) 2017 Gerald Mwangi <gerald.mwangi@gmx.de>
- *
- * Permission to use, copy, modify, and/or distribute this software for any purpose with
- * or without fee is hereby granted, provided that the above copyright notice and this
- * permission notice appear in all copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD
- * TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN
- * NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER
- * IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
- * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- */
-#ifndef LOWPASS_H
-#define LOWPASS_H
+#ifndef CHEBYSHEVBANDPASS_H
+#define CHEBYSHEVBANDPASS_H
 #include <DistrhoPlugin.hpp>
-#include <bandpassfilter.h>
-#define NUM_FILTERS 1
+#include <fourthorderfilter.h>
+#define MAXORDER 10
 START_NAMESPACE_DISTRHO
-class BandPass:
+class ChebyshevBandPass:
         public Plugin
 {
 public:
-    BandPass();
-    ~BandPass();
-
+    ChebyshevBandPass();
+    ~ChebyshevBandPass();
 
 protected:
    /* --------------------------------------------------------------------------------------------------------
@@ -37,7 +21,7 @@ protected:
     */
     const char* getLabel() const override
     {
-    return "BandPass";
+    return "ChebyshevBandPass";
     }
 
    /**
@@ -45,9 +29,7 @@ protected:
     */
     const char* getDescription() const override
     {
-    return "Filter which output a  bandpass  signal."
-           "The order of the filter is 2*order. The damping factor allows for resonant sounds when set near zero. TREAT WITH CAUTION,"
-           "YOU CAN DAMAGE YOU EARS!";
+    return "Filter which output a chebyshev bandpass  signal.";
     }
 
    /**
@@ -96,14 +78,14 @@ protected:
     float getParameterValue(uint32_t index) const override;
     void setParameterValue(uint32_t index, float value) override;
     void run(const float** inputs, float** outputs, uint32_t frames) override;
-
 private:
-    bandpassfilter m_filter[NUM_FILTERS];
-    int m_buffersize;
-    float *m_outbuffers[NUM_FILTERS];
-    int factorial(int n);
-    void resizeBuffers(int newsize);
-};
+    void setFilterParameters();
+    FourthOrderFilter m_filters[MAXORDER];
+    unsigned int m_order; //the real order is 2*m_order
+    float m_centerfreq;
+    float m_bandwidth;
+    float m_passbandatten;
 
+};
 END_NAMESPACE_DISTRHO
-#endif // LOWPASS_H
+#endif // CHEBYSHEVBANDPASS_H

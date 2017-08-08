@@ -9,6 +9,7 @@ bandpassfilter::bandpassfilter()
     m_cutoff=1000.0;
     m_damp=1.0;
     m_gainDB=-3.0;
+    m_scale=1.0;
     computeCoefficients();
 
 }
@@ -38,7 +39,7 @@ void bandpassfilter::computeCoefficients()
                 }
             }
         }
-        m_delayOutCoeff[m]=coeff;
+        m_delayOutCoeff[m]=coeff;//*pow(m_scale,(double)m);
         m_delayOut[m]=0.0;
     }
 
@@ -47,7 +48,7 @@ void bandpassfilter::computeCoefficients()
         int kfac=factorial(k);
         int nOverK=nfac/(kfac*factorial(m_order-k));
         float coeff=nOverK*pow(-1.0,k)*pow(F,m_order);
-        m_delayInCoeff[k]=coeff;
+        m_delayInCoeff[k]=coeff*pow(m_scale,(double)k);
         m_delayIn[k]=0.0;
     }
 

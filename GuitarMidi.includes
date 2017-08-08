@@ -8,3 +8,4 @@ DPF/distrho/src/lv2
 DPF/distrho/src/vestige
 DPF/distrho/
 plugins/BandPass
+plugins/ChebyshevBandPass
