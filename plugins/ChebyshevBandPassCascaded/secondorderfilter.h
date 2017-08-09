@@ -10,14 +10,14 @@ public:
     SecondOrderFilter();
     ~SecondOrderFilter();
     void setOutputBufferSize(int newsize);
-    void setParameters(float n0,float n2, float n4,float d1,float d2,float d3,float d4);
+    void setFilterCoefficients(float n0, float n1, float n2, float d1, float d2);
     void process(const float* input, int frames);
     float *getOutput();
 private:
-    float m_delayIn[4];
+    float m_delayIn[2];
     float m_paramsIn[3];
-    float m_delayOut[4];
-    float m_paramsOut[4];
+    float m_delayOut[2];
+    float m_paramsOut[2];
 
     float* m_buff;
     unsigned int m_buffsize;

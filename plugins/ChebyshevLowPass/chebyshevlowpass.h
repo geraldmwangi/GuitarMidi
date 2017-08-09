@@ -1,15 +1,14 @@
 #ifndef CHEBYSHEVBANDPASS_H
 #define CHEBYSHEVBANDPASS_H
 #include <DistrhoPlugin.hpp>
-#include <fourthorderfilter.h>
-#define MAXORDER 10
+#include <chebyshevlowpassfilter.h>
 START_NAMESPACE_DISTRHO
-class ChebyshevBandPass:
+class ChebyshevLowPass:
         public Plugin
 {
 public:
-    ChebyshevBandPass();
-    ~ChebyshevBandPass();
+    ChebyshevLowPass();
+    ~ChebyshevLowPass();
 
 protected:
    /* --------------------------------------------------------------------------------------------------------
@@ -21,7 +20,7 @@ protected:
     */
     const char* getLabel() const override
     {
-    return "ChebyshevBandPass";
+    return "ChebyshevLowPass";
     }
 
    /**
@@ -29,7 +28,7 @@ protected:
     */
     const char* getDescription() const override
     {
-    return "Filter which output a chebyshev bandpass  signal.";
+    return "Filter which output a chebyshev lowpass  signal.";
     }
 
    /**
@@ -79,12 +78,9 @@ protected:
     void setParameterValue(uint32_t index, float value) override;
     void run(const float** inputs, float** outputs, uint32_t frames) override;
 private:
-    void setFilterParameters();
-    SecondOrderFilter m_filters[MAXORDER];
-    unsigned int m_order; //the real order is 2*m_order
-    float m_centerfreq;
-    float m_bandwidth;
-    float m_passbandatten;
+//    void setFilterParameters();
+    ChebyshevLowHighPassFilter m_filter;
+
 
 };
 END_NAMESPACE_DISTRHO

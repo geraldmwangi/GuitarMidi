@@ -9,3 +9,5 @@ DPF/distrho/src/vestige
 DPF/distrho/
 plugins/BandPass
 plugins/ChebyshevBandPass
+plugins/ChebyshevLowPass
+plugins/ChebyshevBandPassCascaded

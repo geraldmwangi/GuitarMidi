@@ -1,4 +1,4 @@
-#include "fourthorderfilter.h"
+#include "secondorderfilter.h"
 
 SecondOrderFilter::SecondOrderFilter()
 {
@@ -6,13 +6,11 @@ SecondOrderFilter::SecondOrderFilter()
     m_buffsize=0;
     m_delayIn[0]=0.0;
     m_delayIn[1]=0.0;
-    m_delayIn[2]=0.0;
-    m_delayIn[3]=0.0;
+
 
     m_delayOut[0]=0.0;
     m_delayOut[1]=0.0;
-    m_delayOut[2]=0.0;
-    m_delayOut[3]=0.0;
+
 
     m_paramsIn[0]=1.0;
     m_paramsIn[1]=0.0;
@@ -20,8 +18,7 @@ SecondOrderFilter::SecondOrderFilter()
 
     m_paramsOut[0]=0.0;
     m_paramsOut[1]=0.0;
-    m_paramsOut[2]=0.0;
-    m_paramsOut[3]=0.0;
+
 }
 
 SecondOrderFilter::~SecondOrderFilter()
@@ -50,26 +47,23 @@ void SecondOrderFilter::setOutputBufferSize(int newsize)
 
 }
 
-void SecondOrderFilter::setParameters(float n0, float n2, float n4, float d1, float d2, float d3, float d4)
+void SecondOrderFilter::setFilterCoefficients(float n0, float n1, float n2, float d1, float d2)
 {
     m_paramsIn[0]=n0;
-    m_paramsIn[1]=n2;
-    m_paramsIn[2]=n4;
+    m_paramsIn[1]=n1;
+    m_paramsIn[2]=n2;
 
     m_paramsOut[0]=d1;
     m_paramsOut[1]=d2;
-    m_paramsOut[2]=d3;
-    m_paramsOut[3]=d4;
+
 
     m_delayIn[0]=0.0;
     m_delayIn[1]=0.0;
-    m_delayIn[2]=0.0;
-    m_delayIn[3]=0.0;
+
 
     m_delayOut[0]=0.0;
     m_delayOut[1]=0.0;
-    m_delayOut[2]=0.0;
-    m_delayOut[3]=0.0;
+
 }
 
 void SecondOrderFilter::process(const float *input, int frames)
@@ -77,22 +71,19 @@ void SecondOrderFilter::process(const float *input, int frames)
     if(frames!=m_buffsize)
         setOutputBufferSize(frames);
 
-    for(int i=0;i<4;i++)
+    for(int i=0;i<2;i++)
     {
         m_buff[i]=input[i]*m_paramsIn[0];
-        int i4=i-4;
-        if(i4>=0)
-            m_buff[i]+=m_paramsIn[2]*input[i4];
-        else
-            m_buff[i]+=m_paramsIn[2]*m_delayIn[3-i];
+        for(int j=1;j<=2;j++)
+        {
+            int ij=i-j;
+            if(ij>=0)
+                m_buff[i]+=m_paramsIn[j]*input[ij];
+            else
+                m_buff[i]+=m_paramsIn[j]*m_delayIn[j-1-i];
+        }
 
-        int i2=i-2;
-        if(i2>=0)
-            m_buff[i]+=m_paramsIn[1]*input[i2];
-        else
-            m_buff[i]+=m_paramsIn[1]*m_delayIn[1-i];
-
-        for(int j=1;j<=4;j++)
+        for(int j=1;j<=2;j++)
         {
             int ij=i-j;
             if(ij>=0)
@@ -104,17 +95,18 @@ void SecondOrderFilter::process(const float *input, int frames)
 
     }
 
-    for(int i=4;i<frames;i++)
+    for(int i=2;i<frames;i++)
     {
         m_buff[i]=input[i]*m_paramsIn[0];
-         m_buff[i]+=m_paramsIn[2]*input[i-4];
 
+        for(int j=1;j<=2;j++)
+        {
 
+            m_buff[i]+=m_paramsIn[j]*input[i-j];
 
-        m_buff[i]+=m_paramsIn[1]*input[i-2];
+        }
 
-
-        for(int j=1;j<=4;j++)
+        for(int j=1;j<=2;j++)
         {
 
             m_buff[i]-=m_paramsOut[j-1]*m_buff[i-j];
@@ -124,7 +116,7 @@ void SecondOrderFilter::process(const float *input, int frames)
 
     }
 
-    for(int i=0;i<4;i++)
+    for(int i=0;i<2;i++)
     {
         m_delayIn[i]=input[frames-1-i];
         m_delayOut[i]=m_buff[frames-1-i];

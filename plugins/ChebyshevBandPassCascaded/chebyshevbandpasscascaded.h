@@ -1,15 +1,15 @@
 #ifndef CHEBYSHEVBANDPASS_H
 #define CHEBYSHEVBANDPASS_H
 #include <DistrhoPlugin.hpp>
-#include <fourthorderfilter.h>
-#define MAXORDER 10
+#include <chebyshevlowpassfilter.h>
+
 START_NAMESPACE_DISTRHO
-class ChebyshevBandPass:
+class ChebyshevBandPassCascaded:
         public Plugin
 {
 public:
-    ChebyshevBandPass();
-    ~ChebyshevBandPass();
+    ChebyshevBandPassCascaded();
+    ~ChebyshevBandPassCascaded();
 
 protected:
    /* --------------------------------------------------------------------------------------------------------
@@ -29,7 +29,7 @@ protected:
     */
     const char* getDescription() const override
     {
-    return "Filter which output a chebyshev bandpass  signal.";
+    return "Filter which output a chebyshev bandpass  signal. The filter is a cascade of a highpass and a low pass filter";
     }
 
    /**
@@ -80,7 +80,9 @@ protected:
     void run(const float** inputs, float** outputs, uint32_t frames) override;
 private:
     void setFilterParameters();
-    SecondOrderFilter m_filters[MAXORDER];
+    ChebyshevLowHighPassFilter m_highpass;
+    ChebyshevLowHighPassFilter m_lowpass;
+    ChebyshevLowHighPassFilter m_lowpass2;
     unsigned int m_order; //the real order is 2*m_order
     float m_centerfreq;
     float m_bandwidth;

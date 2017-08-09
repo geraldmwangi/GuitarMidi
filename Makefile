@@ -18,6 +18,8 @@ endif
 plugins: libs
 	$(MAKE) all -C plugins/BandPass
 	$(MAKE) all -C plugins/ChebyshevBandPass
+	$(MAKE) all -C plugins/ChebyshevLowPass
+	$(MAKE) all -C plugins/ChebyshevBandPassCascaded
 
 
 
