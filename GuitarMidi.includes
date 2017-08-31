@@ -11,3 +11,5 @@ plugins/BandPass
 plugins/ChebyshevBandPass
 plugins/ChebyshevLowPass
 plugins/ChebyshevBandPassCascaded
+plugins/EllipticBandPass
+DSPFilters/shared/DSPFilters/include

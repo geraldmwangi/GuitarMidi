@@ -29,7 +29,7 @@ BUILD_VST2   = true
 TARGET_DIR = ../../bin
 
 BUILD_C_FLAGS   += -I.
-BUILD_CXX_FLAGS += -I. -I../../DPF/distrho -I../../DPF/dgl
+BUILD_CXX_FLAGS += -I. -I../../DPF/distrho -I../../DPF/dgl -I../../DSPFilters/shared/DSPFilters/include/
 
 ifeq ($(HAVE_DGL),true)
 BASE_FLAGS += -DHAVE_DGL

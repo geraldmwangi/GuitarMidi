@@ -20,6 +20,7 @@ plugins: libs
 	$(MAKE) all -C plugins/ChebyshevBandPass
 	$(MAKE) all -C plugins/ChebyshevLowPass
 	$(MAKE) all -C plugins/ChebyshevBandPassCascaded
+	$(MAKE) all -C plugins/EllipticBandPass
 
 
 
