@@ -6,10 +6,10 @@ ChebyshevBandPass::ChebyshevBandPass():
 {
 //    for(int r=0;r<MAXORDER;r++)
 //        m_filters[MAXORDER].setOutputBufferSize(getBufferSize());
-    m_centerfreq=1000;
-    m_bandwidth=1000;
+    m_centerfreq=220;
+    m_bandwidth=80;
     m_passbandatten=1;
-    m_order=1;
+    m_order=2;
     setFilterParameters();
 
 }

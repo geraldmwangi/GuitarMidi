@@ -6,10 +6,10 @@ EllipticBandPass::EllipticBandPass():
 {
 //    for(int r=0;r<MAXORDER;r++)
 //        m_filters[MAXORDER].setOutputBufferSize(getBufferSize());
-    m_centerfreq=1000;
-    m_bandwidth=1000;
+    m_centerfreq=110;
+    m_bandwidth=40;
     m_passbandatten=1;
-    m_order=1;
+    m_order=4;
     setFilterParameters();
 
 }
@@ -149,8 +149,9 @@ void EllipticBandPass::run(const float **inputs, float **outputs, uint32_t frame
 {
 
     memcpy(outputs[0],inputs[0],sizeof(float)*frames);
-    for(int i=0;i<m_order;i++)
-        m_filter[i].process(frames,outputs);
+    // for(int i=0;i<m_order;i++)
+    //     m_filter[i].process(frames,outputs);
+    m_filter[0].process(frames,outputs);
 
 
 }
@@ -159,8 +160,9 @@ void EllipticBandPass::setFilterParameters()
 {
     float highf=m_centerfreq+0.5*m_bandwidth;
     float lowf=m_centerfreq-0.5*m_bandwidth;
-    for(int i=0;i<m_order;i++)
-        m_filter[i].setup(1,getSampleRate(),m_centerfreq,m_bandwidth,m_passbandatten,60.0);
+    // for(int i=0;i<m_order;i++)
+    //     m_filter[i].setup(1,getSampleRate(),m_centerfreq,m_bandwidth,m_passbandatten,60.0);
+     m_filter[0].setup(m_order,getSampleRate(),m_centerfreq,m_bandwidth,m_passbandatten,60.0);
 
 
 
